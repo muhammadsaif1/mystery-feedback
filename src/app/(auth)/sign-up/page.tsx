@@ -81,9 +81,7 @@ function SignUp() {
     } catch (error) {
       console.error("error in sign-up", error);
       const axiosError = error as AxiosError<ApiResponse>;
-      let errorMessage =
-        axiosError.response?.data.message || "Error signing up";
-      toast.error(errorMessage);
+      toast.error(axiosError.response?.data.message || "Error signing up");
       setIsSubmitting(false);
     }
   };
