@@ -18,6 +18,7 @@ import { Message } from "@/model/User";
 import { toast } from "sonner";
 import axios from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
+import dayjs from "dayjs";
 
 type MessageCardProps = {
   message: Message;
@@ -26,9 +27,16 @@ type MessageCardProps = {
 
 function MessageCard({ message, onMessageDelete }: MessageCardProps) {
   const handleDeleteConfirm = async () => {
-    const response = await axios.delete<ApiResponse>(
-      `/api/delete-message/${message._id}`
-    );
+    try {
+      const response = await axios.delete<ApiResponse>(
+        `/api/delete-message/${message._id}`
+      );
+      toast.success(response.data.message || "Message deleted successfully");
+      onMessageDelete(message._id as string);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete message");
+    }
   };
   return (
     <Card className="card-bordered">
