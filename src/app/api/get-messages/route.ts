@@ -8,7 +8,7 @@ import mongoose from "mongoose";
 export async function GET() {
   await dbConnect();
   const session = await getServerSession(authOptions);
-  const user: User = session?.user;
+  const _user: User = session?.user;
 
   if (!session || !session.user) {
     return Response.json(
@@ -19,15 +19,15 @@ export async function GET() {
       { status: 401 }
     );
   }
-  const userId = new mongoose.Types.ObjectId(user._id);
+  const userId = new mongoose.Types.ObjectId(_user._id);
 
   try {
     const user = await UserModel.aggregate([
-      { $match: { id: userId } }, // Add your aggregation pipeline here
+      { $match: { _id: userId } }, // Add your aggregation pipeline here
       { $unwind: "$messages" },
       { $sort: { "messages.createdAt": -1 } },
       { $group: { _id: "$_id", messages: { $push: "$messages" } } },
-    ]);
+    ]).exec();
     if (!user || user.length === 0) {
       return Response.json(
         {

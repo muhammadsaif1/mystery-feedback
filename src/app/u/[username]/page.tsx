@@ -36,8 +36,8 @@ const initialMessageString =
   "What's your favorite movie?||Do you have any pets?||What's your dream job?";
 
 export default function SendMessage() {
-  const params = useParams<{ username: string }>();
-  const username = params.username;
+  const params = useParams<{ userName: string }>();
+  const userName = params.userName;
 
   const {
     complete,
@@ -66,7 +66,7 @@ export default function SendMessage() {
     try {
       const response = await axios.post<ApiResponse>("/api/send-message", {
         ...data,
-        username,
+        userName,
       });
 
       toast.success(response.data.message);
@@ -102,7 +102,7 @@ export default function SendMessage() {
             name="content"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Send Anonymous Message to @{username}</FormLabel>
+                <FormLabel>Send Anonymous Message to @{userName}</FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Write your anonymous message here"
