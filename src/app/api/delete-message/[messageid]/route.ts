@@ -8,13 +8,13 @@ import { NextRequest } from "next/server";
 
 export async function DELETE(
   request: NextRequest,
-  context: { params: { messageid: string } }
+  { params }: { params: { messageid: string } }
 ) {
   // console.log(params, "saif");
 
   // const messageId = params.messageid;4
 
-  const { messageid } = context.params;
+  const { messageid } = params;
 
   await dbConnect();
   const session = await getServerSession(authOptions);
