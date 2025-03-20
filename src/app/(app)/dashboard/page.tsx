@@ -130,10 +130,13 @@ function Dashboard() {
           {...register("acceptMessages")}
           checked={acceptMessages}
           onCheckedChange={handleSwitchChange}
-          disabled={isSwitchLoading}
+          disabled
         />
-        <span className="ml-2">
+        {/* <span className="ml-2">
           Accept Messages: {acceptMessages ? "On" : "Off"}
+        </span> */}
+        <span className="ml-2 text-red-600">
+          This feature is currently Under Maintenance!!
         </span>
       </div>
       <Separator />
