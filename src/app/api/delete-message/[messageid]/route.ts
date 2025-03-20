@@ -5,14 +5,20 @@ import { User } from "next-auth";
 
 import { authOptions } from "../../auth/[...nextauth]/options";
 import { NextRequest } from "next/server";
+import mongoose from "mongoose";
 
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { messageid: string } }
 ) {
-  console.log(params, "params");
-
   const messageId = params.messageid;
+
+  if (!mongoose.Types.ObjectId.isValid(messageId)) {
+    return Response.json(
+      { success: false, message: "Invalid message ID format" },
+      { status: 400 }
+    );
+  }
   await dbConnect();
   const session = await getServerSession(authOptions);
   const _user: User = session?.user;
